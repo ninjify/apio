@@ -1,0 +1,53 @@
+dag:
+    endpoints:
+        /api/:
+            generator: alice
+            data:
+                schema:
+                    stdClass:
+                        api:
+                            name: Acme API
+                            version: "1.0"
+                            time: "<(time())>"
+
+        /api/v1/users:
+            generator: alice
+            data:
+                schema:
+                    stdClass:
+                        "user{1..10}":
+                            name: "<firstName()>"
+                            surname: "<lastName()>"
+                            email: "<email()>"
+                            role: "<jobTitle()>"
+                            createdAt: "<date_create()>"
+                            lastLoggedAt: "<date_create()>"
+
+        /api/v1/groups:
+            generator: alice
+            data:
+                schema:
+                    stdClass:
+                        "groups{1..10}":
+                            name: "<firstName()>"
+
+        /api/v1/pricing:
+            generator: alice
+            data:
+                normalize: "@@tariff{1..3}"
+                schema:
+                    stdClass:
+                        "tariff_bare (template)":
+                            name: "<firstName()>"
+                            price: "<randomNumber(3)>"
+                            description: "<catchPhrase()>"
+                            "features (unique)": "<numberBetween(2,5)>x @feature*"
+                            size: 3
+
+                        "tariff{1..3} (extends tariff_bare)":
+                        "tariff{2} (extends tariff_bare)":
+                            size: 5
+
+                        "feature{1..15}":
+                            "name (unique)": '<word()>'
+                            stars: '<randomDigit()>'

@@ -1,0 +1,11 @@
+version: '3.7'
+
+services:
+  dag:
+    image: jakubenglicky/ninjify-dag:latest
+    volumes:
+      - ./example/dag.neon:/app/dag.neon
+    environment:
+      DEBUG: 1
+    ports:
+      - 5555:80
